@@ -4,7 +4,7 @@ import { MdOutlineStar } from "react-icons/md";
 import { useState } from "react";
 import Button from "../atoms/Button";
 
-const ReviewCard = ({ title, rating, review }) => {
+const ReviewCard = ({ id, title, rating, review, onDelete, onEdit }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const charLimits = 150;
   const isLengthEnough = review.length > charLimits;
@@ -13,6 +13,7 @@ const ReviewCard = ({ title, rating, review }) => {
     : review.slice(0, charLimits) + (review.length > charLimits ? "..." : "");
 
   const stars = [1, 2, 3, 4, 5];
+  const currentData = { id, title, rating, review };
 
   return (
     <div className='bg-surface-dark border border-border-subtle rounded-xl p-5 md:py-6 md:px-8 '>
@@ -39,10 +40,16 @@ const ReviewCard = ({ title, rating, review }) => {
         </div>
 
         <div className='flex gap-2 md:gap-3 shrink-0'>
-          <Button variant='secondary' className='rounded-xl p-1.5 md:p-2'>
+          <Button
+            variant='secondary'
+            onClick={() => onEdit(currentData)}
+            className='rounded-xl p-1.5 md:p-2'>
             <MdOutlineEdit className='text-xl md:text-2xl font-bold' />
           </Button>
-          <Button variant='danger' className='rounded-xl p-1.5 md:p-2'>
+          <Button
+            variant='danger'
+            onClick={() => onDelete(id)}
+            className='rounded-xl p-1.5 md:p-2'>
             <MdOutlineDelete className='text-xl md:text-2xl font-bold' />
           </Button>
         </div>

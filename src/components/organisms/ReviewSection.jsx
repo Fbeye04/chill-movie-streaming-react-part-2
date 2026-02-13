@@ -3,35 +3,63 @@ import { LuMessageSquarePlus } from "react-icons/lu";
 import ReviewCard from "../molecules/ReviewCard";
 import ReviewModal from "../molecules/ReviewModal";
 
+const DUMMY_REVIEWS = [
+  {
+    id: 501,
+    title: "A Man Called Otto",
+    rating: 4,
+    review:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
+  },
+  {
+    id: 502,
+    title: "A Man Called Otto",
+    rating: 4,
+    review:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
+  },
+  {
+    id: 503,
+    title: "A Man Called Otto",
+    rating: 4,
+    review:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
+  },
+];
+
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState([
-    {
-      id: 501,
-      title: "A Man Called Otto",
-      rating: 4,
-      review:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-    },
-    {
-      id: 502,
-      title: "A Man Called Otto",
-      rating: 4,
-      review:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-    },
-    {
-      id: 503,
-      title: "A Man Called Otto",
-      rating: 4,
-      review:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-    },
-  ]);
-
+  const [reviews, setReviews] = useState(DUMMY_REVIEWS);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviewToEdit, setReviewToEdit] = useState(null);
 
-  const handleAddReview = (reviewBaru) => {
-    setReviews([...reviews, reviewBaru]);
+  const handleAddReview = (newReview) => {
+    setReviews((prevReviews) => [...prevReviews, newReview]);
+  };
+
+  const handleDeleteReview = (idToDelete) => {
+    const remainingReviews = reviews.filter(
+      (prevReviews) => prevReviews.id !== idToDelete,
+    );
+
+    setReviews(remainingReviews);
+  };
+
+  const handleEditReview = (editData) => {
+    setReviewToEdit(editData);
+    setIsModalOpen(true);
+  };
+
+  const handleUpdateItem = (updatedReview) => {
+    const newReviews = reviews.map((prevReviews) => {
+      prevReviews.id === updatedReview.id ? updatedReview : prevReviews;
+    });
+
+    setReviews(newReviews);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setReviewToEdit(null);
   };
 
   return (
@@ -56,8 +84,10 @@ const ReviewSection = () => {
 
       {isModalOpen && (
         <ReviewModal
-          onClose={() => setIsModalOpen(false)}
+          editData={reviewToEdit}
+          onClose={handleCloseModal}
           onAddReview={handleAddReview}
+          onUpdate={handleUpdateItem}
         />
       )}
 
@@ -65,9 +95,12 @@ const ReviewSection = () => {
         {reviews.map((items) => (
           <ReviewCard
             key={items.id}
+            id={items.id}
             title={items.title}
             rating={items.rating}
             review={items.review}
+            onDelete={handleDeleteReview}
+            onEdit={handleEditReview}
           />
         ))}
       </div>

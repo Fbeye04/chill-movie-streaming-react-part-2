@@ -6,20 +6,26 @@ import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import { useState } from "react";
 
-const ReviewModal = ({ onClose, onAddReview }) => {
+const ReviewModal = ({ onClose, onAddReview, editData, onUpdate }) => {
   const stars = [1, 2, 3, 4, 5];
-  const [rating, setRating] = useState(0);
-  const [movieTitle, setMovieTitle] = useState("");
-  const [review, setReview] = useState("");
+  const [rating, setRating] = useState(editData ? editData.rating : 0);
+  const [movieTitle, setMovieTitle] = useState(editData ? editData.title : "");
+  const [review, setReview] = useState(editData ? editData.review : "");
 
   const handleSubmit = () => {
     const reviewPackage = {
+      id: editData ? editData.id : Date.now(),
       title: movieTitle,
       rating: rating,
       review: review,
     };
 
-    onAddReview(reviewPackage);
+    if (editData) {
+      onUpdate(reviewPackage);
+    } else {
+      onAddReview(reviewPackage);
+    }
+
     onClose();
   };
 
@@ -34,7 +40,7 @@ const ReviewModal = ({ onClose, onAddReview }) => {
               <LuMessageSquarePlus className='text-2xl md:text-3xl text-blue-300' />
             </div>
             <h4 className='text-xl md:text-2xl font-bold'>
-              Write a Movie Review
+              {editData ? "Update Review" : "Write a Movie Review"}
             </h4>
           </div>
 
@@ -91,7 +97,7 @@ const ReviewModal = ({ onClose, onAddReview }) => {
             Cancel
           </Button>
           <Button variant='danger' onClick={handleSubmit} className='w-full'>
-            Publish Review
+            {editData ? "Update Review" : "Publish Review"}
           </Button>
         </div>
       </article>
