@@ -11,7 +11,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <header className='py-4 px-6 md:py-6 md:px-10 flex justify-between items-center md:gap-12 sticky top-0 w-full z-50 bg-primary backdrop-blur-sm'>
+    <header className='py-4 px-6 md:py-5 md:px-10 lg:px-20 flex justify-between items-center md:gap-12 sticky top-0 w-full z-50 bg-primary backdrop-blur-sm'>
       <div className='flex gap-3 lg:gap-20 items-center'>
         <Logo textCustom='hidden lg:flex lg:text-3xl' imgCustom='w-5 md:w-7' />
 

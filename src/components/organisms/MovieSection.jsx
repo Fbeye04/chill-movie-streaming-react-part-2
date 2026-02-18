@@ -1,55 +1,92 @@
-import { BsFillArrowRightCircleFill } from "react-icons/bs";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import {
+  BsFillArrowRightCircleFill,
+  BsFillArrowLeftCircleFill,
+} from "react-icons/bs";
 import MovieCard from "../molecules/MovieCard";
-import { useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const MovieSection = ({ section, dataMovies, variant }) => {
-  const sliderRef = useRef(null);
+  // desktop slide position
+  const [translateX, setTranslateX] = useState(0);
+  // screen status
+  const [isDesktop, setIsDesktop] = useState(false);
+  // container slider measuring tool
+  const containerRef = useRef(null);
 
-  const scroll = (direction) => {
-    if (sliderRef.current) {
-      const slidingAmount = direction === "left" ? -500 : 500;
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
 
-      sliderRef.current.scrollBy({
-        left: slidingAmount,
-        behavior: "smooth",
-      });
+    // check once after the web is first opened
+    checkScreen();
+
+    // screen monitoring to see if the screen changes size
+    window.addEventListener("resize", checkScreen);
+    // remove screen monitoring if there is a page change
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
+
+  const handleSlide = (direction) => {
+    // the measuring tool will only work if the container slider is present and when the screen is in desktop mode.
+    if (containerRef.current && isDesktop) {
+      // window Width (visible on screen)
+      const containerWidth = containerRef.current.clientWidth;
+
+      // total width of slider and poster
+      const scrollWidth = containerRef.current.scrollWidth;
+
+      // sliding distance of each change
+      const slideAmount = 500;
+
+      if (direction === "left") {
+        // prev position + 500
+        setTranslateX((prev) => Math.min(prev + slideAmount, 0));
+      } else {
+        // right end limit (remaining slider)
+        // given a minus because we play on the negative axis.
+        const maxScroll = -(scrollWidth - containerWidth);
+
+        // prev position - 500
+        setTranslateX((prev) => Math.max(prev - slideAmount, maxScroll));
+      }
     }
   };
 
   return (
-    <section className='text-white w-full flex flex-col items-start p-5 md:py-5 lg:py-10 md:px-10 lg:px-20 lg:gap-8'>
+    <section className='text-white w-full flex flex-col items-start p-5 md:py-5 lg:py-10 md:px-10 lg:px-20 lg:gap-8 relative z-0 hover:z-50 transition-all duration-300'>
       <h3 className='text-xl lg:text-3xl font-bold mb-5'>{section}</h3>
 
-      <div className='relative w-full'>
-        <button
-          type='button'
-          onClick={() => scroll("left")}
-          className='hidden lg:block lg:absolute -left-5 top-1/2 -translate-y-1/2 text-3xl text-surface-medium bg-white rounded-full lg:z-20 cursor-pointe transition-all duration-300 hover:scale-110 active:scale-95'>
-          <BsFillArrowLeftCircleFill />
-        </button>
+      <div className='relative w-full lg:group'>
+        {/* Only appears if you have swiped (translateX < 0) */}
+        {translateX < 0 && (
+          <button
+            type='button'
+            onClick={() => handleSlide("left")}
+            className='hidden lg:block absolute -left-12 top-1/2 -translate-y-1/2 text-4xl text-primary z-40 cursor-pointer hover:scale-110 transition-transform shadow-lg bg-white rounded-full'>
+            <BsFillArrowLeftCircleFill />
+          </button>
+        )}
 
         <button
           type='button'
-          onClick={() => scroll("right")}
-          className='hidden lg:block lg:absolute -right-4 top-1/2 -translate-y-1/2 text-3xl text-surface-medium bg-white rounded-full z-20 cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95'>
+          onClick={() => handleSlide("right")}
+          className='hidden lg:block absolute -right-12 top-1/2 -translate-y-1/2 text-4xl text-primary z-40 cursor-pointer hover:scale-110 transition-transform shadow-lg bg-white rounded-full'>
           <BsFillArrowRightCircleFill />
         </button>
 
-        <div
-          ref={sliderRef}
-          className='flex gap-4 md:gap-6 overflow-y-hidden overflow-x-auto scrollbar-hide'>
-          {dataMovies.map((item) => (
-            <MovieCard
-              key={item.id}
-              variant={variant}
-              poster={item.poster}
-              title={item.title}
-              rating={item.rating}
-              label={item.label}
-              labelVariant={item.labelVariant}
-            />
-          ))}
+        {/* Hybrid navigation */}
+        <div className='w-full overflow-x-auto px-4 pb-4 lg:overflow-visible lg:px-0 scrollbar-hide'>
+          <div
+            ref={containerRef}
+            className='flex gap-4 md:gap-6 lg:transition-transform lg:duration-500 lg:ease-out'
+            style={{
+              transform: isDesktop ? `translateX(${translateX}px)` : "none",
+            }}>
+            {dataMovies.map((item) => (
+              <MovieCard key={item.id} variant={variant} {...item} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
