@@ -1,8 +1,9 @@
 import movieOpen from "../../assets/movie-open.svg";
+import { Link } from "react-router-dom";
 
 const Logo = ({ imgCustom, textCustom }) => {
   return (
-    <div className='flex items-center gap-2 text-white'>
+    <Link to='/home' className='flex items-center gap-2 text-white'>
       <img
         src={movieOpen}
         className={`w-7 md:w-10 ${imgCustom}`}
@@ -12,7 +13,7 @@ const Logo = ({ imgCustom, textCustom }) => {
         className={`font-londrina uppercase text-3xl md:text-5xl ${textCustom}`}>
         chill
       </span>
-    </div>
+    </Link>
   );
 };
 

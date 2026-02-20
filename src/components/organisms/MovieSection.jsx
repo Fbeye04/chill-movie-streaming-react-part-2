@@ -84,7 +84,12 @@ const MovieSection = ({ section, dataMovies, variant }) => {
               transform: isDesktop ? `translateX(${translateX}px)` : "none",
             }}>
             {dataMovies.map((item) => (
-              <MovieCard key={item.id} variant={variant} {...item} />
+              <MovieCard
+                key={item.id}
+                variant={variant}
+                poster={variant === "landscape" ? item.backdrop : item.image}
+                {...item}
+              />
             ))}
           </div>
         </div>

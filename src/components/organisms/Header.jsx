@@ -4,7 +4,7 @@ import AvatarProfile from "../../assets/avatar.png";
 import { IoMdPerson } from "react-icons/io";
 import { IoMdStar } from "react-icons/io";
 import { IoMdExit } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 
 const Header = () => {
@@ -18,19 +18,25 @@ const Header = () => {
         <nav>
           <ul className='flex gap-4 lg:gap-20 text-white list-none'>
             <li className='cursor-pointer hover:text-blue-500 transition-colors'>
-              <Link to='/' className='text-xs md:text-lg font-medium'>
+              <NavLink
+                to='/home/series'
+                className='text-xs md:text-lg font-medium'>
                 Series
-              </Link>
+              </NavLink>
             </li>
             <li className='cursor-pointer hover:text-blue-500 transition-colors'>
-              <Link to='/' className='text-xs md:text-lg font-medium'>
+              <NavLink
+                to='/home/film'
+                className='text-xs md:text-lg font-medium'>
                 Film
-              </Link>
+              </NavLink>
             </li>
             <li className='cursor-pointer hover:text-blue-500 transition-colors'>
-              <Link to='/' className='text-xs md:text-lg font-medium'>
+              <NavLink
+                to='/home/my-list'
+                className='text-xs md:text-lg font-medium'>
                 Daftar Saya
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -49,14 +55,14 @@ const Header = () => {
         {isDropdownOpen && (
           <div className='absolute top-full right-0 mt-2 w-48 bg-primary rounded-lg shadow-xl overflow-hidden z-50'>
             <Link
-              to='/'
+              to='#'
               className='flex items-center gap-3 px-4 py-3 text-white hover:text-blue-700 transition-colors text-sm'>
               <IoMdPerson />
               <span>Profil Saya</span>
             </Link>
 
             <Link
-              to='/'
+              to='#'
               className='flex items-center gap-3 px-4 py-3 text-white hover:text-blue-700 transition-colors text-sm'>
               <IoMdStar />
               <span>Ubah Premium</span>

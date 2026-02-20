@@ -1,7 +1,7 @@
 import { LuMessageSquarePlus } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import { MdOutlineStar } from "react-icons/md";
-import SelectInput from "../atoms/SelectInput";
+import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 import Button from "../atoms/Button";
 import { useState } from "react";
@@ -29,8 +29,6 @@ const ReviewModal = ({ onClose, onAddReview, editData, onUpdate }) => {
     onClose();
   };
 
-  const movieOptions = ["A Man Called Otto", "Avatar", "Big Hero 6"];
-
   return (
     <div className='flex fixed inset-0 z-50 items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto '>
       <article className='bg-surface-dark border border-border-subtle rounded-xl shadow-2xl w-full max-w-lg overflow-y-auto max-h-[90vh] scrollbar-hide'>
@@ -51,18 +49,19 @@ const ReviewModal = ({ onClose, onAddReview, editData, onUpdate }) => {
           </button>
         </header>
 
-        <SelectInput
-          label='Movie Title *'
-          name='film-movies'
-          id='film-movies'
-          placeholder='Select the movie title..'
-          option={movieOptions}
+        <Input
+          labelInput='Movie Title *'
+          type='text'
+          name='title'
+          id='movie-title'
+          placeholder='Enter the movie title'
           value={movieTitle}
           onChange={(e) => setMovieTitle(e.target.value)}
+          className='px-7 mt-5'
         />
 
         <div className='flex flex-col gap-2 px-7 mt-5'>
-          <label className='text-lg'>Your Rating *</label>
+          <label className='text-sm md:text-xl'>Your Rating *</label>
 
           <div className='flex gap-2'>
             <div className='flex'>
@@ -80,7 +79,9 @@ const ReviewModal = ({ onClose, onAddReview, editData, onUpdate }) => {
             <span className='font-bold text-lg'>{rating}/5</span>
           </div>
 
-          <p className='text-secondary'>Click to rate the movie</p>
+          <p className='text-secondary text-sm md:text-xl'>
+            Click to rate the movie
+          </p>
         </div>
 
         <TextArea

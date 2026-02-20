@@ -2,7 +2,15 @@ import { IoMdEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import { useState } from "react";
 
-const Input = ({ labelInput, type, name, id, placeholder, className = "" }) => {
+const Input = ({
+  labelInput,
+  type,
+  name,
+  id,
+  placeholder,
+  className = "",
+  ...props
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -14,8 +22,9 @@ const Input = ({ labelInput, type, name, id, placeholder, className = "" }) => {
           name={name}
           id={id}
           placeholder={placeholder}
+          {...props}
           required
-          className='bg-transparent border-none text-white outline-none flex-1 w-full md:py-3.5 py-2.5 text-xs md:text-lg'
+          className='bg-transparent border-none text-white outline-none flex-1 w-full md:py-3.5 py-2.5 text-sm md:text-xl'
         />
         {type === "password" && (
           <button

@@ -1,36 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LuMessageSquarePlus } from "react-icons/lu";
 import ReviewCard from "../molecules/ReviewCard";
 import ReviewModal from "../molecules/ReviewModal";
 
-const DUMMY_REVIEWS = [
-  {
-    id: 501,
-    title: "A Man Called Otto",
-    rating: 4,
-    review:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-  },
-  {
-    id: 502,
-    title: "A Man Called Otto",
-    rating: 4,
-    review:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-  },
-  {
-    id: 503,
-    title: "A Man Called Otto",
-    rating: 4,
-    review:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis est purus. Etiam porta aliquam nunc. Phasellus vel ornare mi. Duis quis nulla sagittis, tristique ligula quis, euismod justo. Nunc non elit accumsan, ultricies justo et, fringilla diam. Curabitur pretium scelerisque diam. Donec id scelerisque nibh. Nam iaculis purus nec tortor gravida placerat. Aenean accumsan gravida odio eu pharetra. Morbi fringilla feugiat ligula nec rhoncus. Curabitur in lacus vel massa viverra sollicitudin.",
-  },
-];
-
 const ReviewSection = () => {
-  const [reviews, setReviews] = useState(DUMMY_REVIEWS);
+  const [reviews, setReviews] = useState(() => {
+    const savedReviews = localStorage.getItem("movie_reviews");
+    return savedReviews ? JSON.parse(savedReviews) : [];
+  });
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reviewToEdit, setReviewToEdit] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("movie_reviews", JSON.stringify(reviews));
+  }, [reviews]);
 
   const handleAddReview = (newReview) => {
     setReviews((prevReviews) => [...prevReviews, newReview]);
@@ -50,9 +34,9 @@ const ReviewSection = () => {
   };
 
   const handleUpdateItem = (updatedReview) => {
-    const newReviews = reviews.map((prevReviews) => {
-      prevReviews.id === updatedReview.id ? updatedReview : prevReviews;
-    });
+    const newReviews = reviews.map((prevReviews) =>
+      prevReviews.id === updatedReview.id ? updatedReview : prevReviews,
+    );
 
     setReviews(newReviews);
   };
@@ -74,7 +58,7 @@ const ReviewSection = () => {
 
         <button
           onClick={() => setIsModalOpen(true)}
-          className='w-full md:w-auto flex items-center justify-center gap-2 bg-brand-primary py-2 px-4 lg:py-2.5 lg:px-5 rounded-2xl'>
+          className='w-full md:w-auto flex items-center justify-center gap-2 bg-brand-primary py-2 px-4 lg:py-2.5 lg:px-5 rounded-2xl transition-all duration-200 active:scale-95'>
           <LuMessageSquarePlus className='text-xl md:text-2xl font-semibold' />
           <span className='text-base lg:text-xl font-semibold'>
             Write Review
@@ -91,19 +75,37 @@ const ReviewSection = () => {
         />
       )}
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
-        {reviews.map((items) => (
-          <ReviewCard
-            key={items.id}
-            id={items.id}
-            title={items.title}
-            rating={items.rating}
-            review={items.review}
-            onDelete={handleDeleteReview}
-            onEdit={handleEditReview}
-          />
-        ))}
-      </div>
+      {reviews.length === 0 ? (
+        <div className='border border-secondary rounded-lg flex flex-col items-center justify-center h-[250px] md:h-[300px] lg:h-[350px]'>
+          <div className='bg-zinc-800 rounded-full p-3 lg:p-6 w-fit'>
+            <LuMessageSquarePlus className='text-gray-500 text-4xl lg:text-5xl' />
+          </div>
+
+          <p className='text-base lg:text-xl text-secondary mt-4'>
+            You haven't written any reviews yet
+          </p>
+
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className='bg-brand-primary text-base lg:text-xl font-semibold py-2 px-4 lg:py-4 lg:px-8 mt-6 rounded-2xl transition-all duration-200 active:scale-95'>
+            Write Your First Review
+          </button>
+        </div>
+      ) : (
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+          {reviews.map((items) => (
+            <ReviewCard
+              key={items.id}
+              id={items.id}
+              title={items.title}
+              rating={items.rating}
+              review={items.review}
+              onDelete={handleDeleteReview}
+              onEdit={handleEditReview}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

@@ -11,7 +11,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/Home");
+    navigate("/home");
   };
 
   return (
@@ -45,7 +45,7 @@ const Login = () => {
           <div className='flex gap-1'>
             <span className='text-secondary'>Belum punya akun?</span>
             <Link
-              to='/Register'
+              to='/register'
               className='text-white transition-transform duration-200 ease-in-out hover:text-blue-500'>
               Daftar
             </Link>

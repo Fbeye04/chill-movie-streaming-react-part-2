@@ -1,15 +1,14 @@
-import heroImg from "../../assets/hero-banner.png";
 import Button from "../atoms/Button";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdVolumeOff } from "react-icons/md";
 
-const Hero = () => {
+const Hero = ({ heroImg, title, synopsis, ageRating }) => {
   return (
     <section className='relative w-full h-[300px] md:h-[400px] lg:h-[470px] flex flex-col justify-end text-white mb-2'>
       <img
         src={heroImg}
         className='absolute w-full h-full object-cover z-0'
-        alt='Duty After School'
+        alt={title}
       />
 
       <div className='absolute top-0 left-0 w-full h-full hero-overlay z-10 pointer-events-none'></div>
@@ -17,13 +16,10 @@ const Hero = () => {
       <div className='absolute z-20 w-full bottom-5 md:bottom-10 lg:bottom-14 left-0 px-6 md:px-10 lg:px-14 flex flex-col gap-5 lg:gap-10'>
         <div className='flex flex-col items-start gap-3 lg:gap-5 md:max-w-[500px] lg:max-w-[668px]'>
           <h1 className='text-2xl md:text-4xl lg:text-5xl font-bold'>
-            Duty After School
+            {title}
           </h1>
           <p className='text-xs md:text-lg line-clamp-2 lg:line-clamp-none font-medium'>
-            Sebuah benda tak dikenal mengambil alih dunia. Dalam keputusasaan,
-            Departemen Pertahanan mulai merekrut lebih banyak tentara, termasuk
-            siswa sekolah menengah. Mereka pun segera menjadi pejuang garis
-            depan dalam perang.
+            {synopsis}
           </p>
         </div>
 
@@ -37,11 +33,11 @@ const Hero = () => {
               <span>Selengkapnya</span>
             </Button>
             <span className='bg-transparent border border-secondary py-2 px-3 md:py-3.5 md:px-4 rounded-3xl text-xs md:text-lg'>
-              18+
+              {ageRating}
             </span>
           </div>
 
-          <button className='bg-transparent border border-secondary py-2 px-3 md:py-3.5 md:px-4 rounded-3xl cursor-pointer'>
+          <button className='bg-transparent border border-secondary py-2 px-3 md:py-3.5 md:px-4 rounded-3xl cursor-pointer transition-all duration-200 active:scale-95'>
             <MdVolumeOff className='text-lg md:text-2xl' />
           </button>
         </div>

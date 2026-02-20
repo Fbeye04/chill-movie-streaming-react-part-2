@@ -1,4 +1,3 @@
-// import { IoMdInformationCircleOutline } from "react-icons/io";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -9,8 +8,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Login />} />
-        <Route path='/Register' element={<Register />} />
-        <Route path='/Home' element={<Home />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/home/*' element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

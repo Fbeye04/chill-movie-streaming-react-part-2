@@ -2,7 +2,18 @@ import { MdStar } from "react-icons/md";
 import Label from "../atoms/Label";
 import HoverMovieCard from "./HoverMovieCard";
 
-const MovieCard = ({ poster, title, rating, label, labelVariant, variant }) => {
+const MovieCard = ({
+  poster,
+  backdrop,
+  title,
+  rating,
+  label,
+  labelVariant,
+  variant,
+  genre,
+  duration,
+  ageRating,
+}) => {
   const isLandscape = variant === "landscape";
 
   const cardStyle = {
@@ -27,7 +38,7 @@ const MovieCard = ({ poster, title, rating, label, labelVariant, variant }) => {
 
             <div className='flex items-center gap-1'>
               <MdStar />
-              <span className='text-xs md:text-sm'>{rating}</span>
+              <span className='text-xs md:text-sm'>{rating}/5</span>
             </div>
           </div>
         )}
@@ -36,7 +47,14 @@ const MovieCard = ({ poster, title, rating, label, labelVariant, variant }) => {
       </div>
 
       <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 hidden lg:block invisible group-hover:visible opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out pointer-events-none group-hover:pointer-events-auto'>
-        <HoverMovieCard />
+        <HoverMovieCard
+          title={title}
+          backdrop={backdrop}
+          rating={rating}
+          genre={genre}
+          duration={duration}
+          ageRating={ageRating}
+        />
       </div>
     </div>
   );
