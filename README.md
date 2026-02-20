@@ -142,13 +142,24 @@ http://localhost:5173
 
 ### 🖥 Desktop View
 
-(Add your latest screenshots to /public/screenshots folder)
+![Desktop Login](/public/screenshots/login-desktop.png)
+![Desktop Register](/public/screenshots/register-desktop.png)
+![Desktop Dashboard](/public/screenshots/home-desktop.png)
 
 ### 📱 Mobile View
 
-(Add responsive preview screenshots here)
+![Mobile Login](/public/screenshots/login-mobile.png)
+![Mobile Register](/public/screenshots/register-mobile.png)
+![Mobile Dashboard](/public/screenshots/home-mobile.png)
 
-### 👨‍💻 Author
+### New Features Part 2
+
+![CRUD Features](/public/screenshots/fitur%20CRUD.png)
+![Hover Card](/public/screenshots/hover%20card.png)
+![Series Page](/public/screenshots/Series%20Page.png)
+![Film Page](/public/screenshots/Film%20Page.png)
+
+## 👨‍💻 Author
 
 Muhammad Fachrezi Barus
 
@@ -156,6 +167,6 @@ Muhammad Fachrezi Barus
 
 - 📧 Email: fachrezibarus@gmail.com
 
-### 📝 License
+## 📝 License
 
 This project is created for educational and portfolio purposes. Feel free to use and modify it with proper credit.

@@ -22,17 +22,17 @@ const Series = () => {
       />
 
       <MovieSection
-        section='Melanjutkan Tonton Film'
+        section='Melanjutkan Tonton Series'
         dataMovies={onlySeries(continueWatching)}
         variant='landscape'
       />
       <MovieSection
-        section='Top Rating Film dan Series Hari ini'
+        section='Top Rating Series Hari Ini'
         dataMovies={onlySeries(topRating)}
         variant='portrait'
       />
       <MovieSection
-        section='Film Trending'
+        section='Series Trending'
         dataMovies={onlySeries(trending)}
         variant='portrait'
       />

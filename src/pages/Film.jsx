@@ -27,7 +27,7 @@ const Film = () => {
         variant='landscape'
       />
       <MovieSection
-        section='Top Rating Film dan Series Hari ini'
+        section='Top Rating Film Hari ini'
         dataMovies={onlyFilm(topRating)}
         variant='portrait'
       />
